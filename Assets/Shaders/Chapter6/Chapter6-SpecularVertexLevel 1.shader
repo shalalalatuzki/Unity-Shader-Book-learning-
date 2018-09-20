@@ -33,8 +33,7 @@ Shader "Unity Shaders Book/Chapter 6/Specular Vertex-level"{
 
 			}
 			fixed4 frag(v2f i):SV_TARGET{
-				fixed3 ambient=UNITY_LIGHTMODEL_AMBIENT.xyz;
-				fixed3 worldNormal=i.
+			
 
 			}
 			ENDCG 
