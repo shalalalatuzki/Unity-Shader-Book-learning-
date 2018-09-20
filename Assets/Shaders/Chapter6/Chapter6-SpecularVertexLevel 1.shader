@@ -29,12 +29,13 @@ Shader "Unity Shaders Book/Chapter 6/Specular Vertex-level"{
 				v2f o;
 				o.pos=UnityObjectToClipPos(v.vertex);
 				fixed3 ambient=UNITY_LIGHTMODE_AMBIENT.xyz;
-				fixed3 worldNormal=normalize(mul(v.normal,(float3x3)unity_WorldToObject));
+				fixed3 worldNormal=mul(v.normal,(float3x3)unity_WorldToObject);
 
 			}
 			fixed4 frag(v2f i):SV_TARGET{
 				fixed3 ambient=UNITY_LIGHTMODEL_AMBIENT.xyz;
-				
+				fixed3 worldNormal=i.
+
 			}
 			ENDCG 
 		}
