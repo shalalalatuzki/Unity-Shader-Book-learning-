@@ -5,20 +5,29 @@ Shader "Unity Shaders Book/Chapter 7/Normal Map In Tangent Space 2"
 	Properties
 	{
 		_Color("Color Tint",Color)=(1,1,1,1)
-		_MainTex ("Texture", 2D) = "white" {}
-		_BumpMap("Normal Map",2D)="bump"{}//内置的法线纹理
+		_MainTex ("Main tex", 2D) = "white" {}
+		_BumpMap("Normal Map",2D)="bump" {}//内置的法线纹理
 		_BumpScale("Bump Scale",Float)=1.0//用于控制凹凸程度
 		_Specular("Specular",Color)=(1,1,1,1)
-		_Specular("Gloss",Range(8.0,256))=20
+		_Gloss("Gloss",Range(8.0,256))=20
+		// _Color ("Color Tint", Color) = (1, 1, 1, 1)
+		// _MainTex ("Main Tex", 2D) = "white" {}
+		// _BumpMap ("Normal Map", 2D) = "bump" {}
+		// _BumpScale ("Bump Scale", Float) = 1.0
+		// _Specular ("Specular", Color) = (1, 1, 1, 1)
+		// _Gloss ("Gloss", Range(8.0, 256)) = 20
 	}
 	SubShader
 	{
 		Pass
 		{
 			Tags{"LightMode"="Forwardbase"}
+
 			CGPROGRAM
+
 			#pragma vertex vert
 			#pragma fragment frag
+
 			#include "Lighting.cginc"
 
 			fixed4 _Color;
@@ -49,9 +58,15 @@ Shader "Unity Shaders Book/Chapter 7/Normal Map In Tangent Space 2"
 				o.uv.xy=v.texcoord.xy*_MainTex_ST.xy+_MainTex_ST.zw;
 				o.uv.zw=v.texcoord.xy*_BumpMap_ST.xy+_BumpMap_ST.zw;
 
-				TANGENT_SPACE_ROTATION;//unity中的内置宏，直接得到模型空间到法线空间的变换rotation矩阵
-				o.lightDir=mul(rotation,ObjSpaceLightDir(v.vertex)).xyz;
-				o.viewDir=mul(rotation,ObjSpaceViewDir(v.vertex)).xyz;
+				fixed3 worldNormal=UnityObjectToWorldNormal(v.normal);
+				fixed3 worldTangent=UnityObjectToWorldDir(v.tangent.xyz);
+				fixed3 worldBinomal=cross(worldNormal,worldTangent)*v.tangent.w;
+				float3x3 worldToTangent=float3x3(worldTangent,worldBinomal,worldNormal);
+				//TANGENT_SPACE_ROTATION;//unity中的内置宏，直接得到模型空间到法线空间的变换rotation矩阵
+				// o.lightDir=mul(rotation,ObjSpaceLightDir(v.vertex)).xyz;
+				// o.viewDir=mul(rotation,ObjSpaceViewDir(v.vertex)).xyz;
+				o.lightDir=mul(worldToTangent,WorldSpaceLightDir(v.vertex));
+				o.viewDir=mul(worldToTangent,WorldSpaceViewDir(v.vertex));
 				return  o;
 			}
 			fixed4 frag(v2f i):SV_TARGET
@@ -69,8 +84,9 @@ Shader "Unity Shaders Book/Chapter 7/Normal Map In Tangent Space 2"
 				fixed3 ambient=UNITY_LIGHTMODEL_AMBIENT.xyz*albedo;
 				fixed3 diffuse=_LightColor0.rgb*albedo*max(0,dot(tangentNormal,tangentLightDir));//使用切线空间计算
 
-				fixed3 halfDir=normalize(tangentViewDir+tangentNormal);//使用切线空间计算
-				fixed3 specular=_LightColor0.rgb*_Specular*pow(max(0,dot(tangentNormal,halfDir)),_Gloss);
+				fixed3 halfDir=normalize(tangentViewDir+tangentLightDir);//使用切线空间计算
+				fixed3 specular=_LightColor0.rgb*_Specular.rgb*pow(max(0,dot(tangentNormal,halfDir)),_Gloss);
+
 				return fixed4(ambient+diffuse+specular,1.0);
 
 			}

@@ -47,33 +47,33 @@ Shader "Unity Shaders Book/Chapter 7/Normal Map In Tangent Space" {
 			// so we write one by our own
 			// Note: this function is just a demonstration, not too confident on the math or the speed
 			// Reference: http://answers.unity3d.com/questions/218333/shader-inversefloat4x4-function.html
-			float4x4 inverse(float4x4 input) {
-				#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
+			// float4x4 inverse(float4x4 input) {
+			// 	#define minor(a,b,c) determinant(float3x3(input.a, input.b, input.c))
 				
-				float4x4 cofactors = float4x4(
-				     minor(_22_23_24, _32_33_34, _42_43_44), 
-				    -minor(_21_23_24, _31_33_34, _41_43_44),
-				     minor(_21_22_24, _31_32_34, _41_42_44),
-				    -minor(_21_22_23, _31_32_33, _41_42_43),
+			// 	float4x4 cofactors = float4x4(
+			// 	     minor(_22_23_24, _32_33_34, _42_43_44), 
+			// 	    -minor(_21_23_24, _31_33_34, _41_43_44),
+			// 	     minor(_21_22_24, _31_32_34, _41_42_44),
+			// 	    -minor(_21_22_23, _31_32_33, _41_42_43),
 				    
-				    -minor(_12_13_14, _32_33_34, _42_43_44),
-				     minor(_11_13_14, _31_33_34, _41_43_44),
-				    -minor(_11_12_14, _31_32_34, _41_42_44),
-				     minor(_11_12_13, _31_32_33, _41_42_43),
+			// 	    -minor(_12_13_14, _32_33_34, _42_43_44),
+			// 	     minor(_11_13_14, _31_33_34, _41_43_44),
+			// 	    -minor(_11_12_14, _31_32_34, _41_42_44),
+			// 	     minor(_11_12_13, _31_32_33, _41_42_43),
 				    
-				     minor(_12_13_14, _22_23_24, _42_43_44),
-				    -minor(_11_13_14, _21_23_24, _41_43_44),
-				     minor(_11_12_14, _21_22_24, _41_42_44),
-				    -minor(_11_12_13, _21_22_23, _41_42_43),
+			// 	     minor(_12_13_14, _22_23_24, _42_43_44),
+			// 	    -minor(_11_13_14, _21_23_24, _41_43_44),
+			// 	     minor(_11_12_14, _21_22_24, _41_42_44),
+			// 	    -minor(_11_12_13, _21_22_23, _41_42_43),
 				    
-				    -minor(_12_13_14, _22_23_24, _32_33_34),
-				     minor(_11_13_14, _21_23_24, _31_33_34),
-				    -minor(_11_12_14, _21_22_24, _31_32_34),
-				     minor(_11_12_13, _21_22_23, _31_32_33)
-				);
-				#undef minor
-				return transpose(cofactors) / determinant(input);
-			}
+			// 	    -minor(_12_13_14, _22_23_24, _32_33_34),
+			// 	     minor(_11_13_14, _21_23_24, _31_33_34),
+			// 	    -minor(_11_12_14, _21_22_24, _31_32_34),
+			// 	     minor(_11_12_13, _21_22_23, _31_32_33)
+			// 	);
+			// 	#undef minor
+			// 	return transpose(cofactors) / determinant(input);
+			// }
 
 			v2f vert(a2v v) {
 				v2f o;
