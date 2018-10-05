@@ -62,7 +62,7 @@ Shader "Unity Shaders Book/Chapter 7/Normal Map In Tangent Space 2"
 				fixed3 worldTangent=UnityObjectToWorldDir(v.tangent.xyz);
 				fixed3 worldBinomal=cross(worldNormal,worldTangent)*v.tangent.w;
 				float3x3 worldToTangent=float3x3(worldTangent,worldBinomal,worldNormal);
-				Debug.log(worldToTangent);
+				//Debug.log(worldToTangent);
 				//TANGENT_SPACE_ROTATION;//unity中的内置宏，直接得到模型空间到法线空间的变换rotation矩阵
 				// o.lightDir=mul(rotation,ObjSpaceLightDir(v.vertex)).xyz;
 				// o.viewDir=mul(rotation,ObjSpaceViewDir(v.vertex)).xyz;
