@@ -62,7 +62,7 @@ Shader "Unity Shaders Book/Chapter7-NormalMapWorldSpace"
 
 				fixed3 worldNormal=UnityObjectToWorldNormal(v.normal);
 				fixed3 worldTangent=UnityObjectToWorldDir(v.tangent.xyz);
-				fixed3 worldBinomal=cross(worldNormal,worldTangent)*v.tangent.w;
+				fixed3 worldBinomal=cross(worldNormal,worldTangent)*v.tangent.w;//叉积后有两个方向，v.tangnet.w选择一个需要的方向
 				float3 worldPos=mul(unity_ObjectToWorld,v.vertex).xyz;
 				// float3x3 worldToTangent=float3x3(worldTangent,worldBinomal,worldNormal);
 				//TANGENT_SPACE_ROTATION;//unity中的内置宏，直接得到模型空间到法线空间的变换rotation矩阵
