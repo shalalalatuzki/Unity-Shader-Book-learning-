@@ -82,7 +82,7 @@ Shader "Unity Shaders Book/Chapter 9/Alpha Blend With Shadow" {
 			ENDCG
 		}
 	} 
-	FallBack "Transparent/VertexLit"
+	//FallBack "Transparent/Cutout/VertexLit"
 	// Or  force to apply shadow
-//	FallBack "VertexLit"
+	FallBack "VertexLit"
 }
