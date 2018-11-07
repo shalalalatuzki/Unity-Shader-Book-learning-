@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BrightnessSaturationAndContrast :PostEffectsBase  {
+public class BrightnessSaturationAndContrast :PostEffectsBase {
 
 	public Shader briSatConShader;
 	private Material briSatConMaterial;
